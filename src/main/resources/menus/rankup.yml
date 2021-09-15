@@ -1,0 +1,40 @@
+Inventory:
+  title: 'Evoluir de Rank'
+  size: 36
+  items:
+    0:
+      type: PLAYER_HEAD
+      owner: '{player}'
+      name: '&a{player}'
+      lore:
+        - '&7Abaixo estão suas'
+        - '&7informações:'
+        - ''
+        - ' &8▶ &7Rank: {rank}'
+        - ' &8▶ &7Próx.: {next_rank}'
+        - ' &8▶ &7Progresso: &a{progress}%'
+      slot: 13
+    1:
+      action: RANKUP
+      type: PLAYER_HEAD
+      owner: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODZhZGRiZDVkZWRhZDQwOTk5NDczYmU0YTdmNDhmNjIzNmE3OWEwZGNlOTcxYjVkYmQ3MzcyMDE0YWUzOTRkIn19fQ=='
+      name: '&aEvoluir de Rank'
+      lore:
+        - '&7Abaixo estão os requisitos para'
+        - '&7evoluir de rank:'
+        - ''
+        - '{requirements}'
+        - ''
+        - '{status}'
+      slot: 20
+    2:
+      action: CANCEL
+      type: PLAYER_HEAD
+      owner: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTJjMmY2ZmE3ZWM1MzA0MzVjNDMxNTcyOTM4YjlmZWI5NTljNDIyOThlNTU1NDM0MDI2M2M2NTI3MSJ9fX0='
+      name: '&cCancelar'
+      slot: 24
+
+Lore-Filter:
+  can-upgrade: '&aClique para evoluir de rank!'
+  cant-upgrade: '&cVocê não possui todos requisitos!'
+  none: '&cNenhum'

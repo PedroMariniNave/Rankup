@@ -1,0 +1,6 @@
+name: Rankup
+description: Only a simple RankUP plugin.
+version: 1.0
+api-version: 1.16
+main: com.zpedroo.voltzrankup.VoltzRankUP
+softdepend: [Legendchat, Vault]

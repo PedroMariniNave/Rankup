@@ -1,0 +1,51 @@
+Inventory:
+  title: 'Ranks'
+  size: 54
+  slots: 11,12,13,14,15,20,21,22,23,24,29,30,31,32,33,38,39,40,41,42
+  next-page-slot: 26 # só vai aparecer se tiver próxima página
+  previous-page-slot: 18 # só vai aparecer se tiver página anterior
+  items:
+    Slave:
+      locked:
+        type: PLAYER_HEAD
+        owner: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ=='
+        name: '&cEscravo'
+        lore:
+          - '&7Esse é o primeiro rank!'
+          - ''
+          - '{status}'
+      unlocked:
+        type: PLAYER_HEAD
+        owner: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGY0MjEwOGI5ZGIzOTdlMzQxNmE1YjEyN2I5Njg0YjdkODM0MTViMjllMDg0YjYxNDQ3NTZjMGM3N2E0MzIifX19'
+        name: '&aEscravo'
+        lore:
+          - '&7Esse é o primeiro rank!'
+          - ''
+          - '{status}'
+    Peasant:
+      locked:
+        type: PLAYER_HEAD
+        owner: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ=='
+        name: '&cCamponês'
+        lore:
+          - '&7Abaixo estão os requisitos para'
+          - '&7desbloquear esse rank:'
+          - ''
+          - '{requirements}'
+          - ''
+          - '{status}'
+      unlocked:
+        type: PLAYER_HEAD
+        owner: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGY0MjEwOGI5ZGIzOTdlMzQxNmE1YjEyN2I5Njg0YjdkODM0MTViMjllMDg0YjYxNDQ3NTZjMGM3N2E0MzIifX19'
+        name: '&aCamponês'
+        lore:
+          - '&7Abaixo estão os requisitos para'
+          - '&7desbloquear esse rank:'
+          - ''
+          - '{requirements}'
+          - ''
+          - '{status}'
+
+Lore-Filter:
+  locked: '&cAtualmente esse rank está bloqueado!'
+  unlocked: '&aVocê já desbloqueou esse rank!'

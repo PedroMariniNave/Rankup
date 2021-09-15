@@ -1,0 +1,74 @@
+MySQL:
+  enabled: false
+  host: localhost
+  database: db
+  username: user
+  password: pass
+  port: 3306
+
+Settings:
+  save-interval: 600 # em segundos
+  commands:
+    ranks:
+      command: ranks
+      aliases: [rank]
+    rankup:
+      command: rankup
+      aliases: [ru, evoluir]
+
+Messages:
+  last-rank: '&cVocê já está no último rank!'
+  insufficient-requirements:
+    - '&cVocê não possui todos requisitos para evoluir!'
+    - '&cRequisitos:'
+    - ''
+    - '{requirements}'
+    - ''
+
+Titles:
+  rankup:
+    title: '&6&lUP!'
+    subtitle: '&7Você evoluiu de rank!'
+
+Requirements:
+  VAULT:
+    1: ' &8▶ &e{has}&8/&e{need} ⛃ &8→ &a{progress}%' # lore mostrada no próximo rank/no menu de RankUP/mensagem dos requisitos
+    2: ' &8▶ &e{need} ⛃ &8→ &a100%' # lore mostrada nos ranks desbloqueados ou distantes
+  EXP:
+    1: ' &8▶ &6{has}&8/&6{need} ⏦ &8→ &a{progress}%'
+    2: ' &8▶ &6{need} ⏦ &8→ &a100%'
+
+Next-Page:
+  type: ARROW
+  name: '&aPróxima Página'
+
+Previous-Page:
+  type: ARROW
+  name: '&cPágina Anterior'
+
+Ranks:
+  Slave:
+    tag: '&8[Escravo]'
+    requirements: []
+    rankup-commands: []
+  Peasant:
+    tag: '&a[Camponês]'
+    requirements:
+      - 'VAULT,10B'
+      - 'EXP,10k'
+    rankup-commands:
+      - 'pex user {player} group remove {old_rank}'
+      - 'pex user {player} group add {new_rank}'
+
+Number-Formatter:
+  - "k"
+  - "M"
+  - "B"
+  - "T"
+  - "Q"
+  - "QQ"
+  - "S"
+  - "SS"
+  - "O"
+  - "N"
+  - "D"
