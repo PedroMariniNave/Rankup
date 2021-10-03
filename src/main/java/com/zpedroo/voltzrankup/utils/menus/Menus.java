@@ -1,6 +1,7 @@
 package com.zpedroo.voltzrankup.utils.menus;
 
-import com.zpedroo.voltzrankup.enums.Requirement;
+import com.zpedroo.multieconomy.api.CurrencyAPI;
+import com.zpedroo.multieconomy.objects.Currency;
 import com.zpedroo.voltzrankup.hooks.VaultHook;
 import com.zpedroo.voltzrankup.managers.DataManager;
 import com.zpedroo.voltzrankup.managers.RankManager;
@@ -59,15 +60,20 @@ public class Menus {
         double generalProgress = 0;
 
         List<String> requirements = new ArrayList<>(nextRank.getRequirements().size());
-        for (Map.Entry<Requirement, BigInteger> entry : nextRank.getRequirements().entrySet()) {
-            Requirement requirement = entry.getKey();
+        for (Map.Entry<String, BigInteger> entry : nextRank.getRequirements().entrySet()) {
+            String requirement = entry.getKey();
             BigInteger need = entry.getValue();
             BigInteger has = BigInteger.ZERO;
             double progress = 0;
 
             switch (requirement) {
-                case VAULT -> has = VaultHook.getMoney(player);
-                case EXP -> has = BigInteger.valueOf(player.getTotalExperience());
+                case "VAULT" -> has = VaultHook.getMoney(player);
+                default -> {
+                    Currency currency = CurrencyAPI.getCurrency(requirement);
+                    if (currency == null) break;
+
+                    has = CurrencyAPI.getCurrencyAmount(player, currency);
+                }
             }
 
             if (has.compareTo(need) > 0) has = need;
@@ -75,7 +81,7 @@ public class Menus {
 
             generalProgress += progress;
 
-            requirements.add(getColored(StringUtils.replaceEach(FileUtils.get().getString(FileUtils.Files.CONFIG, "Requirements." + requirement.toString() + ".1"), new String[]{
+            requirements.add(getColored(StringUtils.replaceEach(FileUtils.get().getString(FileUtils.Files.CONFIG, "Requirements." + requirement + ".1"), new String[]{
                     "{has}",
                     "{need}",
                     "{progress}"
@@ -109,7 +115,7 @@ public class Menus {
             String action = FileUtils.get().getString(file, "Inventory.items." + str + ".action");
 
             switch (action.toUpperCase()) {
-                case "RANKUP" -> inventoryUtils.addAction(inventory, item, () -> {
+                case "RANKUP" -> inventoryUtils.addAction(inventory, slot, () -> {
                     if (!RankManager.getInstance().canUpgradeRank(player)) {
                         player.closeInventory();
                         for (String msg : Messages.INSUFFICIENT_REQUIREMENTS) {
@@ -125,15 +131,15 @@ public class Menus {
                         return;
                     }
 
-                    RankManager.getInstance().upgradeRank(player);
-                    if (data.getNextRank() == null) {
+                    RankManager.getInstance().upgradeRank(player, true);
+                    if (data.getNextRank() == null || data.getNextRank().getRequirements().isEmpty()) {
                         player.closeInventory();
                         return;
                     }
 
                     openRankUPMenu(player);
                 }, InventoryUtils.ActionType.ALL_CLICKS);
-                case "CANCEL" -> inventoryUtils.addAction(inventory, item, player::closeInventory, InventoryUtils.ActionType.ALL_CLICKS);
+                case "CANCEL" -> inventoryUtils.addAction(inventory, slot, player::closeInventory, InventoryUtils.ActionType.ALL_CLICKS);
             }
 
             inventory.setItem(slot, item);
@@ -162,21 +168,26 @@ public class Menus {
             String status = data.getRank().getId() >= rank.getId() ? "unlocked" : "locked";
 
             List<String> requirements = new ArrayList<>(rank.getRequirements().size());
-            for (Map.Entry<Requirement, BigInteger> entry : rank.getRequirements().entrySet()) {
-                Requirement requirement = entry.getKey();
+            for (Map.Entry<String, BigInteger> entry : rank.getRequirements().entrySet()) {
+                String requirement = entry.getKey();
                 BigInteger need = entry.getValue();
                 BigInteger has = BigInteger.ZERO;
                 double progress = 0;
 
                 switch (requirement) {
-                    case VAULT -> has = VaultHook.getMoney(player);
-                    case EXP -> has = BigInteger.valueOf(player.getTotalExperience());
+                    case "VAULT" -> has = VaultHook.getMoney(player);
+                    default -> {
+                        Currency currency = CurrencyAPI.getCurrency(requirement);
+                        if (currency == null) break;
+
+                        has = CurrencyAPI.getCurrencyAmount(player, currency);
+                    }
                 }
 
                 if (has.compareTo(need) > 0) has = need;
                 if (need.signum() > 0) progress = has.doubleValue() / need.doubleValue();
 
-                requirements.add(getColored(StringUtils.replaceEach(FileUtils.get().getString(FileUtils.Files.CONFIG, "Requirements." + requirement.toString() + "." + (data.getNextRank() == null ? "2" : (data.getNextRank().getId().equals(rank.getId()) ? "1" : "2"))), new String[]{
+                requirements.add(getColored(StringUtils.replaceEach(FileUtils.get().getString(FileUtils.Files.CONFIG, "Requirements." + requirement + "." + (data.getNextRank() == null ? "2" : (data.getNextRank().getId().equals(rank.getId()) ? "1" : "2"))), new String[]{
                         "{has}",
                         "{need}",
                         "{progress}"

@@ -1,6 +1,5 @@
 package com.zpedroo.voltzrankup.objects;
 
-import com.zpedroo.voltzrankup.enums.Requirement;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -8,11 +7,11 @@ public class Rank {
 
     private String name;
     private String tag;
-    private Map<Requirement, BigInteger> requirements;
+    private Map<String, BigInteger> requirements;
     private List<String> rankupCommands;
     private Integer id;
 
-    public Rank(String name, String tag, Map<Requirement, BigInteger> requirements, List<String> rankupCommands, Integer id) {
+    public Rank(String name, String tag, Map<String, BigInteger> requirements, List<String> rankupCommands, Integer id) {
         this.name = name;
         this.tag = tag;
         this.requirements = requirements;
@@ -28,7 +27,7 @@ public class Rank {
         return tag;
     }
 
-    public Map<Requirement, BigInteger> getRequirements() {
+    public Map<String, BigInteger> getRequirements() {
         return requirements;
     }
 

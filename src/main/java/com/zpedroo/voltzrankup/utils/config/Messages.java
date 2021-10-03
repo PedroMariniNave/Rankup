@@ -12,6 +12,8 @@ public class Messages {
 
     public static final String LAST_RANK = getColored(FileUtils.get().getString(FileUtils.Files.CONFIG, "Messages.last-rank"));
 
+    public static final String NO_REQUIREMENTS = getColored(FileUtils.get().getString(FileUtils.Files.CONFIG, "Messages.no-requirements"));
+
     private static String getColored(String str) {
         return ChatColor.translateAlternateColorCodes('&', str);
     }

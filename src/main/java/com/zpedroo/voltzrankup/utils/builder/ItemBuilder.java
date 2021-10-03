@@ -17,6 +17,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,8 +27,8 @@ public class ItemBuilder {
     private Integer slot;
     private List<InventoryUtils.Action> actions;
 
-    private static Method metaSetProfileMethod;
-    private static Field metaProfileField;
+    private Method metaSetProfileMethod;
+    private Field metaProfileField;
 
     public ItemBuilder(Material material, int amount, short durability, Integer slot, List<InventoryUtils.Action> actions) {
         if (StringUtils.equals(material.toString(), "PLAYER_HEAD")) {
@@ -126,14 +127,16 @@ public class ItemBuilder {
         item.setItemMeta(meta);
     }
 
-    private void setLore(List<String> lore, String[] placeholders, String[] replacers) {
+    private void setLore(List<String> lore, String[] placeholders, String[] replaces) {
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
 
         List<String> newLore = new ArrayList<>(lore.size());
 
         for (String str : lore) {
-            newLore.add(ChatColor.translateAlternateColorCodes('&', StringUtils.replaceEach(str, placeholders, replacers)));
+            String coloredLine = ChatColor.translateAlternateColorCodes('&', StringUtils.replaceEach(str, placeholders, replaces));
+            String[] split = coloredLine.split("\\|");
+            newLore.addAll(Arrays.asList(split));
         }
 
         meta.setLore(newLore);

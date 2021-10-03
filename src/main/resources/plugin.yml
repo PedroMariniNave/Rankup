@@ -3,4 +3,4 @@ description: ${project.description}
 version: ${project.version}
 api-version: 1.16
 main: com.zpedroo.voltzrankup.VoltzRankUP
-softdepend: [Legendchat, Vault]
+softdepend: [Legendchat, Vault, MultiEconomy]

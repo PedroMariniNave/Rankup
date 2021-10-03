@@ -17,6 +17,7 @@ Settings:
       aliases: [ru, evoluir]
 
 Messages:
+  no-requirements: '&6&lVoltz&f&lMC &8&l➜ &cVocê precisa usar um item de evoluir rank para atingir esse rank!'
   last-rank: '&cVocê já está no último rank!'
   insufficient-requirements:
     - '&cVocê não possui todos requisitos para evoluir!'
@@ -46,6 +47,14 @@ Previous-Page:
   type: ARROW
   name: '&cPágina Anterior'
 
+Rankup-Item:
+  type: PLAYER_HEAD
+  owner: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTJjY2I4NGY5YzBjYmIyZWI3YjlhYmJiN2E0ZmM3YjMxODYxNTBkNWU3ZGIwMTg1MmFjNmQ0OTVkZTE3ZTgxMiJ9fX0=
+  name: '&5Evoluir Rank &7(Botão direito)'
+  lore:
+    - '&7Use esse item para evoluir'
+    - '&7de rank sem custo!'
+
 Ranks:
   Slave:
     tag: '&8[Escravo]'
@@ -55,7 +64,7 @@ Ranks:
     tag: '&a[Camponês]'
     requirements:
       - 'VAULT,10B'
-      - 'EXP,10k'
+      - 'TOKENS,10k'
     rankup-commands:
       - 'pex user {player} group remove {old_rank}'
       - 'pex user {player} group add {new_rank}'

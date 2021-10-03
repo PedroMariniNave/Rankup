@@ -1,6 +1,7 @@
 package com.zpedroo.voltzrankup.managers;
 
-import com.zpedroo.voltzrankup.enums.Requirement;
+import com.zpedroo.multieconomy.api.CurrencyAPI;
+import com.zpedroo.multieconomy.objects.Currency;
 import com.zpedroo.voltzrankup.hooks.VaultHook;
 import com.zpedroo.voltzrankup.objects.PlayerData;
 import com.zpedroo.voltzrankup.objects.Rank;
@@ -29,7 +30,7 @@ public class RankManager extends DataManager {
         this.loadRanks();
     }
 
-    public void upgradeRank(Player player) {
+    public void upgradeRank(Player player, Boolean takeRequirements) {
         PlayerData data = load(player);
         if (data == null) return;
 
@@ -40,7 +41,7 @@ public class RankManager extends DataManager {
         if (nextRank == null) return;
 
         data.setRank(nextRank);
-        takeRequirements(player, nextRank);
+        if (takeRequirements) takeRequirements(player, nextRank);
 
         for (String cmd : nextRank.getRankUPCommands()) {
             if (cmd == null) continue;
@@ -64,16 +65,19 @@ public class RankManager extends DataManager {
         Rank nextRank = load(player).getNextRank();
         if (nextRank == null) return false;
 
-        for (Map.Entry<Requirement, BigInteger> entry : nextRank.getRequirements().entrySet()) {
-            Requirement requirement = entry.getKey();
+        for (Map.Entry<String, BigInteger> entry : nextRank.getRequirements().entrySet()) {
+            String requirement = entry.getKey();
             BigInteger price = entry.getValue();
 
             switch (requirement) {
-                case VAULT -> {
-                    if (VaultHook.getMoney(player).compareTo(price) < 0) return false;
+                case "VAULT" -> {
+                    return VaultHook.getMoney(player).compareTo(price) > 0;
                 }
-                case EXP -> {
-                    if (player.getTotalExperience() < price.intValue()) return false;
+                default -> {
+                    Currency currency = CurrencyAPI.getCurrency(requirement);
+                    if (currency == null) return false;
+
+                    return CurrencyAPI.getCurrencyAmount(player, currency).compareTo(price) > 0;
                 }
             }
         }
@@ -82,13 +86,18 @@ public class RankManager extends DataManager {
     }
 
     private void takeRequirements(Player player, Rank rank) {
-        for (Map.Entry<Requirement, BigInteger> entry : rank.getRequirements().entrySet()) {
-            Requirement requirement = entry.getKey();
+        for (Map.Entry<String, BigInteger> entry : rank.getRequirements().entrySet()) {
+            String requirement = entry.getKey();
             BigInteger price = entry.getValue();
 
             switch (requirement) {
-                case VAULT -> VaultHook.removeMoney(player, price);
-                case EXP -> player.setTotalExperience(player.getTotalExperience() - price.intValue());
+                case "VAULT" -> VaultHook.removeMoney(player, price);
+                default -> {
+                    Currency currency = CurrencyAPI.getCurrency(requirement);
+                    if (currency == null) return;
+
+                    CurrencyAPI.removeCurrencyAmount(player, currency, price);
+                }
             }
         }
     }
@@ -101,13 +110,13 @@ public class RankManager extends DataManager {
             if (ranks == null) continue;
 
             String tag = ChatColor.translateAlternateColorCodes('&', FileUtils.get().getString(file, "Ranks." + ranks + ".tag"));
-            Map<Requirement, BigInteger> requirements = new HashMap<>(2);
+            Map<String, BigInteger> requirements = new HashMap<>(2);
             for (String str : FileUtils.get().getStringList(file, "Ranks." + ranks + ".requirements")) {
                 if (str == null) continue;
 
                 String[] split = str.split(",");
 
-                Requirement requirement = Requirement.valueOf(split[0].toUpperCase());
+                String requirement = split[0];
                 BigInteger price = NumberFormatter.getInstance().filter(split[1]);
 
                 requirements.put(requirement, price);
